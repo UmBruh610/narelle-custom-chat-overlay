@@ -2,32 +2,51 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Custom Chat Overlay</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="chat-container" id="chat"></div>
+  <div class="chat-container"></div>
 
   <script>
-    const chat = document.getElementById('chat');
-    const fakeMessages = [
-      { user: "MochaLatte", text: "Hello world!" },
-      { user: "ChatLad69", text: "This chatbox is fire 🔥" },
-      { user: "OldSchoolGuy", text: "Times New Roman supremacy." },
-      { user: "Streamer", text: "Test message to see layout!" },
+    function addChatMessage(username, text) {
+      const container = document.querySelector('.chat-container');
+
+      const messageEl = document.createElement('div');
+      messageEl.classList.add('chat-message');
+
+      messageEl.innerHTML = `
+        <div class="message-wrapper">
+          <div class="bubble-container">
+            <img src="assets/bubble.png" class="bubble-bg" alt="bubble" />
+            <div class="bubble-content">
+              <div class="username">${username}</div>
+              <div class="text">${text}</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(messageEl);
+
+      // Only trigger animation once
+      setTimeout(() => {
+        messageEl.classList.add('visible');
+      }, 50);
+    }
+
+    // Simulated messages with delay
+    const sampleMessages = [
+      { user: "Viewer1", text: "Hey there!" },
+      { user: "Viewer2", text: "Welcome to the stream!" },
+      { user: "Viewer3", text: "This overlay looks awesome!" }
     ];
 
-    fakeMessages.forEach((msg, i) => {
+    sampleMessages.forEach((msg, i) => {
       setTimeout(() => {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = 'chat-message';
-        msgDiv.innerHTML = `
-          <span class="username">${msg.user}:</span>
-          <span class="message-text">${msg.text}</span>
-        `;
-        chat.appendChild(msgDiv);
-      }, i * 1000);
+        addChatMessage(msg.user, msg.text);
+      }, i * 1500); // 1.5s between messages
     });
   </script>
 </body>
