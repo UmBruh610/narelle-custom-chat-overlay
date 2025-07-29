@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Custom Chat Overlay</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="chat-container"></div>
+
+  <script>
+    function addChatMessage(username, text) {
+      const container = document.querySelector('.chat-container');
+
+      const messageEl = document.createElement('div');
+      messageEl.classList.add('chat-message');
+
+      messageEl.innerHTML = `
+        <div class="message-wrapper">
+          <div class="bubble-container">
+            <img src="assets/bubble.png" class="bubble-bg" alt="bubble" />
+            <div class="bubble-content">
+              <div class="username">${username}</div>
+              <div class="text">${text}</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(messageEl);
+
+      // Only trigger animation once
+      setTimeout(() => {
+        messageEl.classList.add('visible');
+      }, 50);
+    }
+
+    // Simulated messages with delay
+    const sampleMessages = [
+      { user: "Viewer1", text: "Hey there!" },
+      { user: "Viewer2", text: "Welcome to the stream!" },
+      { user: "Viewer3", text: "This overlay looks awesome!" }
+    ];
+
+    sampleMessages.forEach((msg, i) => {
+      setTimeout(() => {
+        addChatMessage(msg.user, msg.text);
+      }, i * 1500); // 1.5s between messages
+    });
+  </script>
+</body>
+</html>
