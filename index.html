@@ -6,6 +6,35 @@
   <title>Custom Chat Overlay</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+<script>
+  const chatContainer = document.querySelector(".chat-container");
+
+  const ws = new WebSocket("ws://localhost:8080");
+
+  ws.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+
+    const chatMessage = document.createElement("div");
+    chatMessage.className = "chat-message";
+
+    chatMessage.innerHTML = `
+      <div class="message-wrapper">
+        <div class="bubble-container">
+          <img src="assets/bubble.png" class="bubble-bg" alt="bubble" />
+          <div class="bubble-content">
+            <div class="username">${data.username}</div>
+            <div class="text">${data.message}</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    chatContainer.appendChild(chatMessage);
+
+    // Scroll to bottom if needed
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  };
+</script>
 <body>
   <div class="chat-container"></div>
 
